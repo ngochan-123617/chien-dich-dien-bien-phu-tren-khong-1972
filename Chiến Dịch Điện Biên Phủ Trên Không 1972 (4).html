@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiến Dịch Điện Biên Phủ Trên Không 1972 - Toán 8</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tone.js for sound effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <!-- Google Fonts: Be Vietnam Pro & Oswald -->
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;900&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            user-select: none;
+            overflow-x: hidden;
+        }
+        .font-military {
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
+        }
+        /* Nền xanh quân đội */
+        .bg-army {
+            background-color: #2b3a26;
+            background-image: radial-gradient(#384b31 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        /* Hiệu ứng lá cờ bay */
+        @keyframes wave {
+            0%, 100% { transform: skewY(0deg) scaleX(1); }
+            50% { transform: skewY(-2deg) scaleX(0.98); }
+        }
+        .flag-wave {
+            animation: wave 3s infinite ease-in-out;
+            transform-origin: left center;
+        }
+        /* Hiệu ứng máy bay bay trên trời đêm */
+        @keyframes flyPatrol {
+            0% { transform: translateX(-10%) translateY(0px); }
+            50% { transform: translateX(10%) translateY(-8px); }
+            100% { transform: translateX(-10%) translateY(0px); }
+        }
+        .plane-fly {
+            animation: flyPatrol 4s infinite ease-in-out;
+        }
+        /* Hiệu ứng rung màn hình khi bị bắn */
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            20% { transform: translate(-8px, 6px); }
+            40% { transform: translate(8px, -6px); }
+            60% { transform: translate(-6px, -4px); }
+            80% { transform: translate(6px, 4px); }
+        }
+        .shake-screen {
+            animation: shake 0.4s ease-in-out;
+        }
+        /* Hiệu ứng radar quét */
+        @keyframes radarSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .radar-sweep {
+            animation: radarSpin 4s linear infinite;
+        }
+        /* Hiệu ứng nổ */
+        @keyframes explode {
+            0% { transform: scale(0.2); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+        .explosion-fx {
+            animation: explode 0.6s ease-out forwards;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1e291b; }
+        ::-webkit-scrollbar-thumb { background: #5c7552; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-army text-white min-h-screen flex flex-col justify-between">
+
+    <!-- ==================== MÀN HÌNH 1: MỞ ĐẦU ==================== -->
+    <section id="screen-intro" class="flex-1 flex flex-col items-center justify-center p-6 text-center transition-opacity duration-500">
+        <div class="max-w-3xl w-full space-y-8">
+            <div class="inline-block px-4 py-1 bg-red-800/80 border border-yellow-400 rounded-full text-yellow-300 text-sm font-bold uppercase tracking-widest mb-2">
+                Toán Học 8 & Lịch Sử Dân Tộc
+            </div>
+            
+            <h1 class="font-military text-4xl sm:text-6xl md:text-7xl font-bold text-yellow-400 uppercase drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] leading-tight">
+                CHIẾN DỊCH ĐIỆN BIÊN PHỦ TRÊN KHÔNG 1972
+            </h1>
+
+            <p class="text-green-200 text-base sm:text-lg max-w-xl mx-auto">
+                Vận dụng kiến thức <span class="text-yellow-300 font-bold">Bất phương trình bậc nhất một ẩn</span> để bảo vệ bầu trời Hà Nội!
+            </p>
+
+            <!-- Nút Lá Cờ Việt Nam + Xuất Kích -->
+            <div class="pt-6 flex flex-col items-center">
+                <button onclick="goToScreen('screen-briefing'); playClick();" class="group relative flex flex-col items-center focus:outline-none cursor-pointer transition-transform hover:scale-105 active:scale-95">
+                    <!-- SVG Cờ Việt Nam -->
+                    <div class="w-48 h-32 sm:w-56 sm:h-36 bg-red-600 rounded-lg shadow-[0_10px_25px_rgba(220,38,38,0.6)] border-2 border-yellow-400 flex items-center justify-center flag-wave overflow-hidden relative">
+                        <svg viewBox="0 0 300 200" class="w-full h-full">
+                            <rect width="300" height="200" fill="#da251d"/>
+                            <polygon points="150,40 167,92 222,92 177,124 194,176 150,144 106,176 123,124 78,92 133,92" fill="#ffff00"/>
+                        </svg>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-white/20"></div>
+                    </div>
+                    <span class="mt-4 px-8 py-2.5 bg-yellow-400 text-red-900 font-military text-2xl sm:text-3xl font-bold rounded-full shadow-lg group-hover:bg-yellow-300 tracking-wider uppercase border-2 border-red-800">
+                        XUẤT KÍCH
+                    </span>
+                </button>
+                <span class="text-xs text-green-300 mt-2 animate-pulse">(Chạm vào lá cờ để nhận lệnh)</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MÀN HÌNH 2: LỆNH & KIẾN THỨC & LUẬT CHƠI ==================== -->
+    <section id="screen-briefing" class="hidden flex-1 flex flex-col items-center p-4 sm:p-6 overflow-y-auto">
+        <div class="max-w-4xl w-full space-y-5">
+            
+            <!-- Khung chữ bự trên cùng: Lệnh tiến hành chiến dịch -->
+            <div class="bg-amber-100 border-4 border-red-700 rounded-xl p-4 text-center shadow-xl">
+                <h2 class="font-military text-2xl sm:text-4xl font-bold text-red-700 uppercase tracking-wide">
+                    LỆNH: TIẾN HÀNH CHIẾN DỊCH
+                </h2>
+            </div>
+
+            <!-- Khung Vũ Khí & Khái niệm BPT (Theo SGK trong ảnh) -->
+            <div class="bg-[#1e291b] border-2 border-yellow-500/70 rounded-xl p-4 sm:p-5 shadow-lg space-y-4">
+                <div class="flex items-center gap-3 border-b border-green-700 pb-2">
+                    <!-- Icon Vũ khí Tên lửa SAM-2 -->
+                    <div class="bg-red-700 p-2 rounded-lg">
+                        <svg class="w-7 h-7 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-bold text-yellow-400 uppercase">VŨ KHÍ CHIẾN ĐẤU: BẤT PHƯƠNG TRÌNH BẬC NHẤT MỘT ẨN</h3>
+                        <p class="text-xs text-green-300">Trang bị kiến thức từ Bài 6 (SGK Toán 8)</p>
+                    </div>
+                </div>
+
+                <!-- Nội dung kiến thức chuẩn từ 2 ảnh SGK -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm sm:text-base">
+                    <div class="bg-green-950/80 p-3.5 rounded-lg border border-green-700 space-y-2">
+                        <h4 class="font-bold text-yellow-300">1. Khái niệm & Nghiệm:</h4>
+                        <p class="text-gray-100 leading-relaxed">
+                            • Bất phương trình dạng <span class="text-yellow-300 font-bold">ax + b &lt; 0</span> (hoặc <span class="text-yellow-300 font-bold">ax + b &gt; 0; ax + b ≤ 0; ax + b ≥ 0</span>) trong đó <span class="italic">a, b</span> là hai số đã cho, <span class="text-red-400 font-bold">a ≠ 0</span> được gọi là <span class="text-yellow-300 font-semibold">bất phương trình bậc nhất một ẩn x</span>.
+                        </p>
+                        <p class="text-gray-100 leading-relaxed">
+                            • Số <span class="italic">x₀</span> là một <span class="text-yellow-300 font-semibold">nghiệm</span> của BPT <span class="italic">A(x) &lt; B(x)</span> nếu <span class="italic">A(x₀) &lt; B(x₀)</span> là khẳng định đúng.
+                        </p>
+                    </div>
+
+                    <div class="bg-green-950/80 p-3.5 rounded-lg border border-green-700 space-y-2">
+                        <h4 class="font-bold text-yellow-300">2. Cách giải BPT bậc nhất một ẩn:</h4>
+                        <p class="text-gray-100">Xét <span class="font-bold text-yellow-200">ax + b &lt; 0 (a ≠ 0) ⇔ ax &lt; -b</span>:</p>
+                        <ul class="list-disc list-inside text-gray-100 space-y-1 pl-1">
+                            <li>Nếu <span class="text-green-400 font-bold">a &gt; 0</span> thì <span class="text-yellow-300 font-bold">x &lt; -b/a</span> (Giữ nguyên chiều).</li>
+                            <li>Nếu <span class="text-red-400 font-bold">a &lt; 0</span> thì <span class="text-yellow-300 font-bold">x &gt; -b/a</span> (Đổi chiều BPT).</li>
+                        </ul>
+                        <p class="text-xs text-green-300 italic">* Các BPT ax + b &gt; 0, ax + b ≤ 0, ax + b ≥ 0 giải tương tự.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Khung Luật chơi -->
+            <div class="bg-[#1e291b] border-2 border-green-600 rounded-xl p-4 sm:p-5 shadow-lg">
+                <h3 class="text-lg font-bold text-yellow-400 uppercase mb-2 flex items-center gap-2">
+                    <span>📋</span> QUY TẮC TÁC CHIẾN (LUẬT CHƠI)
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-100">
+                    <div class="flex items-start gap-2 bg-black/25 p-2.5 rounded-lg">
+                        <span class="text-green-400 font-bold">✔</span>
+                        <span>Trả lời đúng 1 câu: <strong class="text-yellow-300">+1 Điểm lực</strong> và được quyền khai hỏa bắn máy bay địch.</span>
+                    </div>
+                    <div class="flex items-start gap-2 bg-black/25 p-2.5 rounded-lg">
+                        <span class="text-red-400 font-bold">✖</span>
+                        <span>Trả lời sai 1 câu: Bị địch bắn trả, mất <strong class="text-red-400">1 Hộp cứu thương</strong>.</span>
+                    </div>
+                    <div class="flex items-start gap-2 bg-black/25 p-2.5 rounded-lg">
+                        <span class="text-blue-400 font-bold">✚</span>
+                        <span>Khởi đầu có sẵn <strong class="text-red-400">1 Mạng (Hộp cứu thương)</strong> & <strong class="text-yellow-300">2 Điểm lực</strong>. Cứ <strong>3 Điểm lực</strong> đổi được <strong>1 Hộp cứu thương</strong>. Hết hộp cứu thương mà sai thêm 1 câu sẽ thua.</span>
+                    </div>
+                    <div class="flex items-start gap-2 bg-black/25 p-2.5 rounded-lg">
+                        <span class="text-yellow-400 font-bold">⏱</span>
+                        <span>Gồm <strong>3 Giai đoạn</strong> (9 câu hỏi độ khó tăng dần). Tổng thời gian toàn chiến dịch là <strong>5 phút</strong>.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nút Bom Bút Chì ghi "TIẾP TỤC" -->
+            <div class="flex justify-center pt-2 pb-4">
+                <button onclick="goToScreen('screen-name'); playClick();" class="group relative flex items-center focus:outline-none cursor-pointer transition-transform hover:scale-105 active:scale-95">
+                    <!-- SVG Quả Bom Bút Chì -->
+                    <svg width="260" height="80" viewBox="0 0 260 80" class="drop-shadow-xl">
+                        <!-- Đuôi bom (tẩy bút chì & cánh ổn định) -->
+                        <polygon points="10,15 45,25 45,55 10,65" fill="#b91c1c" stroke="#fef08a" stroke-width="2"/>
+                        <rect x="35" y="22" width="18" height="36" rx="3" fill="#f472b6" stroke="#1f2937" stroke-width="2"/>
+                        <rect x="53" y="22" width="10" height="36" fill="#9ca3af" stroke="#1f2937" stroke-width="2"/>
+                        <!-- Thân bom (thân bút chì màu vàng) -->
+                        <rect x="63" y="20" width="135" height="40" fill="#eab308" stroke="#1f2937" stroke-width="2"/>
+                        <line x1="63" y1="33" x2="198" y2="33" stroke="#ca8a04" stroke-width="2"/>
+                        <line x1="63" y1="47" x2="198" y2="47" stroke="#ca8a04" stroke-width="2"/>
+                        <!-- Đầu bom (ngòi bút chì nhọn) -->
+                        <polygon points="198,20 238,40 198,60" fill="#fde68a" stroke="#1f2937" stroke-width="2"/>
+                        <polygon points="225,33.5 238,40 225,46.5" fill="#1f2937"/>
+                        <!-- Chữ TIẾP TỤC -->
+                        <text x="130" y="46" font-family="Oswald, sans-serif" font-size="22" font-weight="bold" fill="#7f1d1d" text-anchor="middle" letter-spacing="1">TIẾP TỤC</text>
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================== MÀN HÌNH 3: NHẬP TÊN CHIẾN SĨ ==================== -->
+    <section id="screen-name" class="hidden flex-1 flex flex-col items-center justify-center p-6 text-center">
+        <div class="max-w-md w-full bg-[#1e291b] border-2 border-yellow-500 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6">
+            <div class="w-16 h-16 bg-red-700 rounded-full mx-auto flex items-center justify-center border-2 border-yellow-400 shadow-md">
+                <span class="text-3xl">⭐</span>
+            </div>
+            
+            <h2 class="font-military text-2xl sm:text-3xl text-yellow-400 uppercase">BÁO DANH CHIẾN SĨ</h2>
+            
+            <div class="space-y-3 text-left">
+                <label for="player-name-input" class="block text-sm font-semibold text-green-200">Nhập họ tên của bạn vào khung bên dưới:</label>
+                <input type="text" id="player-name-input" maxlength="25" placeholder="Ví dụ: Nguyễn Văn An..." 
+                    class="w-full px-4 py-3 rounded-xl bg-amber-50 text-gray-900 font-bold text-lg border-2 border-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-400/50"
+                    oninput="handleNameInput()">
+            </div>
+
+            <!-- Hiện chữ sẵn sàng màu đỏ đậm "Chiến sĩ: ...." khi nhập tên -->
+            <div id="ready-box" class="hidden space-y-4 pt-2 transition-all">
+                <p id="soldier-title" class="text-xl sm:text-2xl font-extrabold text-red-500 bg-amber-100 py-2 px-4 rounded-lg border-2 border-red-600 shadow-inner">
+                    Chiến sĩ: ...
+                </p>
+                
+                <button onclick="prepareStage(1); playClick();" class="w-full py-3.5 bg-red-600 hover:bg-red-500 text-yellow-300 font-military text-2xl font-bold rounded-xl shadow-[0_5px_0_#7f1d1d] active:translate-y-1 transition-all uppercase tracking-wider cursor-pointer border border-yellow-400">
+                    SẴN SÀNG
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MÀN HÌNH 4: CHUYỂN GIAI ĐOẠN ==================== -->
+    <section id="screen-stage-intro" class="hidden flex-1 flex flex-col items-center justify-center p-6 text-center">
+        <div class="max-w-xl w-full bg-[#1a2417] border-4 border-yellow-500 rounded-2xl p-6 sm:p-10 shadow-2xl space-y-6 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-600 via-yellow-400 to-red-600"></div>
+            
+            <div class="inline-block px-4 py-1 bg-red-900/90 text-yellow-300 rounded-full text-sm font-bold border border-yellow-500">
+                MỆNH LỆNH TÁC CHIẾN
+            </div>
+
+            <h2 id="stage-intro-title" class="font-military text-3xl sm:text-5xl font-bold text-yellow-400 uppercase leading-tight">
+                GIAI ĐOẠN 1: 18 - 20/12/1972
+            </h2>
+
+            <div class="bg-black/40 py-3 px-6 rounded-xl border border-green-700 inline-block">
+                <p class="text-lg sm:text-2xl font-bold text-green-300">
+                    Vị trí: <span id="stage-intro-location" class="text-white uppercase">HÀ NỘI</span>
+                </p>
+            </div>
+
+            <p id="stage-intro-desc" class="text-sm sm:text-base text-gray-300">
+                Cấp độ câu hỏi: Dễ (Nhận diện BPT & Nghiệm cơ bản)
+            </p>
+
+            <!-- Khung bắt đầu nổi bật và dòng chữ bước vào chiến đấu màu đỏ nhạt -->
+            <div class="pt-4">
+                <button onclick="startStageBattle(); playClick();" class="px-8 py-4 bg-amber-100 hover:bg-white border-4 border-red-500 rounded-2xl shadow-[0_0_25px_rgba(239,68,68,0.6)] transition-transform hover:scale-105 active:scale-95 cursor-pointer">
+                    <span class="font-military text-2xl sm:text-3xl font-bold text-red-400 uppercase tracking-wider">
+                        BƯỚC VÀO CHIẾN ĐẤU
+                    </span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MÀN HÌNH 5: MÀN HÌNH CHIẾN ĐẤU CHÍNH ==================== -->
+    <section id="screen-game" class="hidden flex-1 flex flex-col max-w-5xl w-full mx-auto p-2 sm:p-4 space-y-3">
+        
+        <!-- THANH TRẠNG THÁI TRÊN CÙNG -->
+        <header class="bg-[#182215] border-2 border-green-700 rounded-xl p-2.5 sm:p-3 flex flex-wrap items-center justify-between gap-2 shadow-lg">
+            <!-- Thanh máu (Hộp cứu thương) & Hệ thống điểm lực -->
+            <div class="flex items-center gap-3 sm:gap-4">
+                <!-- Hộp cứu thương -->
+                <div class="flex items-center gap-1.5 bg-red-950/90 px-3 py-1.5 rounded-lg border border-red-600" title="Hộp cứu thương (Mạng)">
+                    <span class="text-red-400 font-extrabold text-lg">✚</span>
+                    <span class="text-xs text-red-200 hidden sm:inline">Cứu thương:</span>
+                    <span id="hud-medkits" class="font-bold text-white text-base sm:text-lg">1</span>
+                </div>
+                <!-- Điểm lực -->
+                <div class="flex items-center gap-1.5 bg-yellow-950/90 px-3 py-1.5 rounded-lg border border-yellow-600" title="Điểm lực (3 điểm = +1 Hộp cứu thương)">
+                    <span class="text-yellow-400 text-lg">⚡</span>
+                    <span class="text-xs text-yellow-200 hidden sm:inline">Điểm lực:</span>
+                    <span id="hud-power" class="font-bold text-yellow-300 text-base sm:text-lg">2</span>
+                    <span class="text-[10px] text-gray-400">(3⚡=1✚)</span>
+                </div>
+            </div>
+
+            <!-- Khung Thời gian (Tổng 5 phút) -->
+            <div class="flex items-center gap-1.5 bg-black/60 px-3 py-1.5 rounded-lg border border-green-500">
+                <span class="text-green-400">⏱</span>
+                <span id="hud-timer" class="font-mono font-bold text-lg sm:text-xl text-green-300">05:00</span>
+            </div>
+
+            <!-- Thông tin Giai đoạn & Nút 3 chấm xám có dấu chấm than đỏ -->
+            <div class="flex items-center gap-2">
+                <div class="text-right">
+                    <div id="hud-stage-name" class="text-xs sm:text-sm font-bold text-yellow-400">GĐ 1: 18-20/12/72</div>
+                    <div id="hud-location" class="text-[11px] text-green-300">Vị trí: Hà Nội • Câu <span id="hud-q-num">1</span>/9</div>
+                </div>
+
+                <!-- Nút 3 chấm xám hiện dấu chấm than đỏ khi có tư liệu mới -->
+                <button id="btn-history-doc" onclick="openHistoryModal()" class="relative p-2.5 bg-gray-600 hover:bg-gray-500 text-white rounded-xl border border-gray-400 shadow-md transition-transform active:scale-95 cursor-pointer" title="Tư liệu lịch sử giai đoạn">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <circle cx="5" cy="12" r="2.2"/>
+                        <circle cx="12" cy="12" r="2.2"/>
+                        <circle cx="19" cy="12" r="2.2"/>
+                    </svg>
+                    <!-- Dấu chấm than đỏ -->
+                    <span id="history-badge" class="absolute -top-2 -right-2 w-6 h-6 bg-red-600 text-white font-black text-sm rounded-full flex items-center justify-center border-2 border-white animate-bounce shadow-lg">
+                        !
+                    </span>
+                </button>
+            </div>
+        </header>
+
+        <!-- BẦU TRỜI ĐÊM HÀ NỘI (KHU VỰC MÁY BAY ĐỊCH & BẮN HẠ) -->
+        <div id="sky-arena" class="relative h-44 sm:h-52 bg-gradient-to-b from-[#050814] via-[#0c1631] to-[#1a2942] rounded-2xl border-2 border-blue-900/80 overflow-hidden shadow-inner flex flex-col justify-between p-3">
+            <!-- Sao & Đèn pha phòng không -->
+            <div class="absolute inset-0 opacity-40 pointer-events-none" style="background-image: radial-gradient(white 1px, transparent 1px); background-size: 35px 35px;"></div>
+            <!-- Luồng đèn pha quét bầu trời -->
+            <div class="absolute bottom-0 left-1/4 w-16 h-64 bg-gradient-to-t from-yellow-200/20 to-transparent -rotate-12 transform origin-bottom pointer-events-none"></div>
+            <div class="absolute bottom-0 right-1/4 w-16 h-64 bg-gradient-to-t from-yellow-200/20 to-transparent rotate-12 transform origin-bottom pointer-events-none"></div>
+
+            <!-- Thông báo hướng dẫn trên bầu trời -->
+            <div class="relative z-10 flex justify-between items-center text-xs">
+                <span class="bg-black/50 px-2.5 py-1 rounded text-blue-200 border border-blue-800">
+                    🌌 Bầu trời đêm Hà Nội (12/1972)
+                </span>
+                <span id="sky-status" class="bg-red-900/80 px-2.5 py-1 rounded text-yellow-300 font-semibold border border-red-600">
+                    Mục tiêu địch đang xâm nhập!
+                </span>
+            </div>
+
+            <!-- Các máy bay chiến đấu trên trời đêm: B-52, Tàu sân bay (tiêm kích hải quân), Máy bay chiến thuật -->
+            <div id="enemy-fleet" class="relative z-10 flex items-center justify-around my-auto px-2">
+                <!-- Máy bay chiến thuật F-111 -->
+                <button onclick="shootPlane('tactical', this)" class="plane-target group relative flex flex-col items-center p-2 rounded-xl transition-transform hover:scale-110 focus:outline-none cursor-pointer" style="animation-delay: 0.5s;">
+                    <svg class="w-14 h-10 sm:w-16 sm:h-12 text-gray-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] plane-fly" viewBox="0 0 100 60" fill="currentColor">
+                        <path d="M50 5 L62 25 L95 38 L95 45 L60 40 L56 52 L68 56 L68 60 L50 57 L32 60 L32 56 L44 52 L40 40 L5 45 L5 38 L38 25 Z"/>
+                    </svg>
+                    <span class="text-[10px] sm:text-xs bg-slate-800/90 text-gray-200 px-2 py-0.5 rounded mt-1 border border-slate-600">MB Chiến thuật</span>
+                </button>
+
+                <!-- Pháo đài bay B-52 (Mục tiêu lớn trung tâm) -->
+                <button onclick="shootPlane('b52', this)" class="plane-target group relative flex flex-col items-center p-2 rounded-xl transition-transform hover:scale-110 focus:outline-none cursor-pointer">
+                    <svg class="w-24 h-14 sm:w-28 sm:h-16 text-slate-200 drop-shadow-[0_0_12px_rgba(239,68,68,0.7)] plane-fly" viewBox="0 0 140 70" fill="currentColor">
+                        <path d="M70 4 L77 24 L135 42 L135 48 L76 42 L74 58 L92 64 L92 68 L70 65 L48 68 L48 64 L66 58 L64 42 L5 48 L5 42 L63 24 Z"/>
+                        <!-- 8 động cơ đặc trưng B-52 -->
+                        <rect x="35" y="34" width="6" height="8" fill="#ef4444"/>
+                        <rect x="48" y="30" width="6" height="8" fill="#ef4444"/>
+                        <rect x="86" y="30" width="6" height="8" fill="#ef4444"/>
+                        <rect x="99" y="34" width="6" height="8" fill="#ef4444"/>
+                    </svg>
+                    <span class="text-xs font-bold bg-red-900/90 text-yellow-300 px-2.5 py-0.5 rounded mt-1 border border-red-500">Pháo đài B-52</span>
+                </button>
+
+                <!-- Tàu sân bay & Tiêm kích hạm -->
+                <button onclick="shootPlane('carrier', this)" class="plane-target group relative flex flex-col items-center p-2 rounded-xl transition-transform hover:scale-110 focus:outline-none cursor-pointer" style="animation-delay: 1s;">
+                    <svg class="w-16 h-11 sm:w-20 sm:h-12 text-blue-200 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)] plane-fly" viewBox="0 0 120 60" fill="currentColor">
+                        <!-- Hình bóng Tàu sân bay ngoài vịnh Bắc Bộ + Tiêm kích -->
+                        <polygon points="10,45 110,45 100,56 20,56" fill="#475569"/>
+                        <rect x="75" y="32" width="14" height="13" fill="#64748b"/>
+                        <path d="M45 8 L52 20 L75 26 L45 26 L15 26 L38 20 Z" fill="#93c5fd"/>
+                    </svg>
+                    <span class="text-[10px] sm:text-xs bg-blue-950/90 text-blue-200 px-2 py-0.5 rounded mt-1 border border-blue-600">Tàu sân bay</span>
+                </button>
+            </div>
+
+            <!-- Nút hướng dẫn bắn máy bay hiện ra khi trả lời đúng -->
+            <div id="shoot-prompt-banner" class="hidden absolute inset-0 bg-red-900/40 backdrop-blur-[1px] z-20 flex items-center justify-center pointer-events-none">
+                <div class="bg-yellow-400 text-red-950 font-military text-lg sm:text-2xl font-bold px-5 py-2 rounded-full border-4 border-red-700 shadow-2xl animate-bounce">
+                    🎯 CHẠM VÀO MÁY BAY ĐỊCH ĐỂ BẮN HẠ!
+                </div>
+            </div>
+        </div>
+
+        <!-- KHU VỰC CÂU HỎI TOÁN HỌC -->
+        <div class="flex-1 bg-[#1e291b] border-2 border-yellow-500/80 rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col justify-between space-y-4">
+            
+            <!-- Nội dung câu hỏi -->
+            <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                    <span id="question-type-badge" class="px-3 py-0.5 bg-green-800 text-yellow-300 text-xs font-bold rounded-full uppercase">
+                        Câu hỏi trắc nghiệm
+                    </span>
+                    <span id="question-difficulty" class="text-xs text-green-300 font-semibold">
+                        Mức độ: Dễ
+                    </span>
+                </div>
+                
+                <h3 id="question-text" class="text-lg sm:text-xl font-bold text-white leading-relaxed pt-1">
+                    Đang tải câu hỏi...
+                </h3>
+            </div>
+
+            <!-- Các lựa chọn đáp án -->
+            <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Các nút đáp án sẽ được render bằng JS -->
+            </div>
+
+            <!-- Khung giải thích đáp án sau mỗi lượt trả lời -->
+            <div id="explanation-box" class="hidden bg-amber-50 text-gray-900 border-l-8 border-yellow-500 rounded-xl p-4 shadow-md space-y-2">
+                <div class="flex items-center justify-between">
+                    <span id="result-status-text" class="font-extrabold text-base sm:text-lg text-green-700">
+                        ✅ CHÍNH XÁC!
+                    </span>
+                </div>
+                <p id="explanation-text" class="text-sm sm:text-base text-gray-800 leading-relaxed">
+                    Giải thích chi tiết...
+                </p>
+                <div id="next-btn-wrapper" class="pt-2 flex justify-end">
+                    <button id="btn-next-question" onclick="nextQuestion()" class="px-6 py-2 bg-green-700 hover:bg-green-600 text-white font-bold rounded-lg shadow transition-colors cursor-pointer">
+                        Câu tiếp theo ➔
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================== MODAL TƯ LIỆU LỊCH SỬ (NÚT 3 CHẤM XÁM) ==================== -->
+    <div id="modal-history" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-amber-50 text-gray-900 max-w-lg w-full rounded-2xl border-4 border-red-700 shadow-2xl overflow-hidden flex flex-col">
+            <div class="bg-red-800 text-yellow-300 px-5 py-3 flex items-center justify-between">
+                <h3 id="history-modal-title" class="font-military text-xl sm:text-2xl font-bold uppercase">
+                    TƯ LIỆU LỊCH SỬ - GIAI ĐOẠN 1
+                </h3>
+                <span class="text-xs bg-red-950 text-white px-2 py-1 rounded">⏸ Đã tạm dừng thời gian</span>
+            </div>
+            
+            <div class="p-5 space-y-3 text-sm sm:text-base leading-relaxed max-h-[60vh] overflow-y-auto">
+                <div id="history-modal-content" class="space-y-3 text-gray-800">
+                    <!-- Nội dung lịch sử từng giai đoạn -->
+                </div>
+            </div>
+
+            <div class="bg-amber-100 px-5 py-3 border-t border-amber-300 flex justify-end">
+                <button onclick="closeHistoryModal()" class="px-6 py-2.5 bg-red-700 hover:bg-red-600 text-white font-bold rounded-xl shadow cursor-pointer">
+                    Đã rõ • Tiếp tục chiến đấu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MÀN HÌNH 6: CHIẾN THẮNG TOÀN DIỆN ==================== -->
+    <section id="screen-victory" class="hidden flex-1 flex flex-col items-center justify-center p-4 sm:p-8 text-center bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100 text-gray-900">
+        <div class="max-w-3xl w-full bg-white/90 backdrop-blur-md rounded-3xl p-6 sm:p-10 shadow-2xl border-4 border-yellow-400 space-y-6">
+            
+            <!-- Lá cờ Việt Nam tung bay & Các chiến sĩ bộ đội đang chào cờ -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <!-- Lá cờ bay -->
+                <div class="w-40 h-28 bg-red-600 rounded-lg shadow-lg border-2 border-yellow-400 flag-wave overflow-hidden">
+                    <svg viewBox="0 0 300 200" class="w-full h-full">
+                        <rect width="300" height="200" fill="#da251d"/>
+                        <polygon points="150,40 167,92 222,92 177,124 194,176 150,144 106,176 123,124 78,92 133,92" fill="#ffff00"/>
+                    </svg>
+                </div>
+
+                <!-- Minh họa SVG các chiến sĩ bộ đội giơ tay chào cờ -->
+                <svg class="w-48 h-28" viewBox="0 0 220 120">
+                    <!-- Chiến sĩ 1 -->
+                    <g transform="translate(20, 20)">
+                        <ellipse cx="25" cy="18" rx="18" ry="10" fill="#3f6212"/> <!-- Mũ cối -->
+                        <circle cx="25" cy="28" r="10" fill="#fed7aa"/> <!-- Mặt -->
+                        <rect x="13" y="40" width="24" height="45" rx="5" fill="#4d7c0f"/> <!-- Áo quân phục -->
+                        <path d="M37 45 L48 25 L35 22" stroke="#4d7c0f" stroke-width="6" fill="none" stroke-linecap="round"/> <!-- Tay chào cờ -->
+                    </g>
+                    <!-- Chiến sĩ 2 -->
+                    <g transform="translate(85, 15)">
+                        <ellipse cx="25" cy="18" rx="18" ry="10" fill="#3f6212"/>
+                        <circle cx="25" cy="28" r="10" fill="#fed7aa"/>
+                        <rect x="13" y="40" width="24" height="50" rx="5" fill="#4d7c0f"/>
+                        <path d="M37 45 L48 25 L35 22" stroke="#4d7c0f" stroke-width="6" fill="none" stroke-linecap="round"/>
+                    </g>
+                    <!-- Chiến sĩ 3 -->
+                    <g transform="translate(150, 20)">
+                        <ellipse cx="25" cy="18" rx="18" ry="10" fill="#3f6212"/>
+                        <circle cx="25" cy="28" r="10" fill="#fed7aa"/>
+                        <rect x="13" y="40" width="24" height="45" rx="5" fill="#4d7c0f"/>
+                        <path d="M37 45 L48 25 L35 22" stroke="#4d7c0f" stroke-width="6" fill="none" stroke-linecap="round"/>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="space-y-2">
+                <p id="victory-soldier-name" class="text-lg font-bold text-green-800 uppercase">
+                    CHÚC MỪNG CHIẾN SĨ!
+                </p>
+                <h1 class="font-military text-3xl sm:text-5xl font-bold text-red-600 uppercase drop-shadow">
+                    CHIẾN DỊCH 12 NGÀY ĐÊM TOÀN THẮNG
+                </h1>
+            </div>
+
+            <!-- Thông điệp và lợi ích của việc lồng ghép nội dung lịch sử vào Toán học -->
+            <div class="bg-sky-50 border-2 border-sky-300 rounded-2xl p-4 sm:p-5 text-left space-y-2">
+                <h3 class="font-bold text-sky-900 text-base sm:text-lg flex items-center gap-2">
+                    <span>💡</span> Ý nghĩa & Lợi ích của trò chơi:
+                </h3>
+                <p class="text-sm sm:text-base text-gray-700 leading-relaxed">
+                    Việc lồng ghép hào khí lịch sử <strong>Chiến dịch Điện Biên Phủ trên không 1972</strong> vào môn <strong>Toán học (Bất phương trình bậc nhất một ẩn)</strong> giúp biến những con số khô khan thành nhiệm vụ thực tiễn sinh động. Qua đó, học sinh vừa rèn luyện tư duy logic sắc bén, vừa bồi đắp lòng yêu nước và niềm tự hào dân tộc sâu sắc.
+                </p>
+            </div>
+
+            <!-- Thông điệp nhấn mạnh màu đỏ đậm nổi bật hơn -->
+            <div class="bg-red-50 border-2 border-red-400 rounded-2xl p-4">
+                <p class="text-lg sm:text-2xl font-black text-red-700 leading-snug">
+                    “Đừng chỉ nên chơi những trò chơi do người khác tạo ra, mà hãy tự tạo game làm chủ tri thức của chính mình!”
+                </p>
+            </div>
+
+            <div class="pt-2">
+                <button onclick="resetGame()" class="px-8 py-3 bg-green-700 hover:bg-green-600 text-white font-bold rounded-xl shadow-lg transition-transform hover:scale-105 cursor-pointer">
+                    🔄 Chơi lại với bộ câu hỏi mới
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MÀN HÌNH 7: THẤT BẠI (HẾT MÁU HOẶC HẾT GIỜ) ==================== -->
+    <section id="screen-gameover" class="hidden flex-1 flex flex-col items-center justify-center p-6 text-center">
+        <div class="max-w-md w-full bg-[#1e291b] border-4 border-red-600 rounded-2xl p-8 shadow-2xl space-y-6">
+            <div class="text-6xl">💥</div>
+            <h2 class="font-military text-3xl sm:text-4xl font-bold text-red-500 uppercase">
+                CHIẾN DỊCH CHƯA THÀNH CÔNG
+            </h2>
+            <p id="gameover-reason" class="text-gray-200 text-base sm:text-lg">
+                Trận địa phòng không đã hết hộp cứu thương!
+            </p>
+            <button onclick="resetGame()" class="w-full py-3.5 bg-yellow-400 hover:bg-yellow-300 text-red-900 font-military text-2xl font-bold rounded-xl shadow-lg transition-transform hover:scale-105 cursor-pointer uppercase">
+                CHƠI LẠI TỪ ĐẦU
+            </button>
+        </div>
+    </section>
+
+    <script>
+        // ==================== HỆ THỐNG ÂM THANH (TONE.JS) ====================
+        let synth = null;
+        function initAudio() {
+            if (!synth && typeof Tone !== 'undefined') {
+                synth = new Tone.PolySynth(Tone.Synth).toDestination();
+            }
+        }
+        function playClick() {
+            try {
+                initAudio();
+                if (synth) synth.triggerAttackRelease("C5", "16n");
+            } catch (e) {}
+        }
+        function playCorrectSound() {
+            try {
+                initAudio();
+                if (synth) {
+                    const now = Tone.now();
+                    synth.triggerAttackRelease("E5", "16n", now);
+                    synth.triggerAttackRelease("G5", "16n", now + 0.1);
+                    synth.triggerAttackRelease("C6", "8n", now + 0.2);
+                }
+            } catch (e) {}
+        }
+        function playShootSound() {
+            try {
+                initAudio();
+                if (synth) {
+                    const noise = new Tone.NoiseSynth({
+                        noise: { type: 'brown' },
+                        envelope: { attack: 0.01, decay: 0.3, sustain: 0 }
+                    }).toDestination();
+                    noise.triggerAttackRelease("8n");
+                }
+            } catch (e) {}
+        }
+        function playWrongSound() {
+            try {
+                initAudio();
+                if (synth) {
+                    const now = Tone.now();
+                    synth.triggerAttackRelease("Eb3", "8n", now);
+                    synth.triggerAttackRelease("C3", "4n", now + 0.15);
+                }
+            } catch (e) {}
+        }
+
+        // ==================== DỮ LIỆU LỊCH SỬ 3 GIAI ĐOẠN ====================
+        const HISTORY_DATA = {
+            1: {
+                title: "TƯ LIỆU LỊCH SỬ - GIAI ĐOẠN 1 (18 - 20/12/1972)",
+                content: `
+                    <p><strong>• Bối cảnh:</strong> Đêm 18/12/1972, đế quốc Mỹ mở cuộc tập kích đường không chiến lược quy mô lớn mang tên <em>Linebacker II</em>, huy động hàng chục lượt "siêu pháo đài bay" B-52 cùng nhiều máy bay chiến thuật ồ ạt ném bom Hà Nội, Hải Phòng.</p>
+                    <p><strong>• Chiến công mở màn:</strong> Quân và dân miền Bắc đã chủ động, bình tĩnh giáng trả quyết liệt. Ngay trong đêm 18/12, Tiểu đoàn 59 (Trung đoàn tên lửa 261) đã bắn rơi tại chỗ chiếc B-52 đầu tiên trên bầu trời Hà Nội.</p>
+                    <p><strong>• Kết quả GĐ 1:</strong> Trong 3 ngày đầu (18–20/12), ta bắn rơi 14 máy bay Mỹ (trong đó có 8 chiếc B-52), đập tan âm mưu đánh phủ đầu của địch.</p>
+                `
+            },
+            2: {
+                title: "TƯ LIỆU LỊCH SỬ - GIAI ĐOẠN 2 (21 - 24/12/1972)",
+                content: `
+                    <p><strong>• Diễn biến:</strong> Bị thiệt hại nặng, từ ngày 21 đến 24/12/1972, địch thay đổi thủ đoạn: giảm đánh phá ban ngày, tăng cường đánh lén ban đêm với mật độ nhiễu dày đặc kết hợp tiêm kích từ các tàu sân bay ngoài vịnh Bắc Bộ.</p>
+                    <p><strong>• Ý chí kiên cường:</strong> Bộ đội Tên lửa, Không quân và Pháo cao xạ hiệp đồng chặt chẽ, sáng tạo ra cách đánh "vạch nhiễu tìm thù", tiêu diệt gọn các tốp B-52.</p>
+                    <p><strong>• Kết quả GĐ 2:</strong> Ta bắn rơi thêm nhiều máy bay hiện đại (B-52, F-111), buộc Mỹ phải tuyên bố ngừng ném bom 36 giờ nhân dịp lễ Noel (25/12).</p>
+                `
+            },
+            3: {
+                title: "TƯ LIỆU LỊCH SỬ - GIAI ĐOẠN 3 (26 - 29/12/1972)",
+                content: `
+                    <p><strong>• Trận quyết chiến:</strong> Đêm 26/12/1972, Mỹ huy động lực lượng lớn nhất (105 lần chiếc B-52 cùng hơn 100 máy bay chiến thuật) đánh ồ ạt vào Hà Nội, Hải Phòng, Thái Nguyên.</p>
+                    <p><strong>• Đỉnh cao thắng lợi:</strong> Chỉ trong đêm 26/12, lưới lửa phòng không ba thứ quân đã bắn rơi 8 chiếc B-52 và 10 máy bay khác. Đêm 27/12, phi công Phạm Tuân lái MiG-21 bắn rơi B-52 trên bầu trời Sơn La.</p>
+                    <p><strong>• Toàn thắng:</strong> Sáng 30/12/1972, chính quyền Mỹ buộc phải tuyên bố ngừng ném bom từ vĩ tuyến 20 trở ra và quay lại bàn đàm phán Paris. Tổng cộng 12 ngày đêm, ta bắn rơi <strong>81 máy bay</strong> (có <strong>34 chiếc B-52</strong>).</p>
+                `
+            }
+        };
+
+        // ==================== TRẠNG THÁI TRÒ CHƠI ====================
+        let gameState = {
+            playerName: "",
+            stage: 1,            // 1, 2, 3
+            questionIndex: 0,    // 0 -> 8 (9 câu)
+            medkits: 1,          // Bắt đầu có sẵn 1 mạng (hộp cứu thương)
+            power: 2,            // Bắt đầu có sẵn 2 điểm lực (3 điểm = +1 hộp cứu thương)
+            timeLeft: 300,       // 5 phút = 300 giây
+            timerInterval: null,
+            isPaused: false,
+            canShoot: false,     // True khi trả lời đúng và chờ người chơi chạm bắn máy bay
+            answered: false,     // True khi đã chọn đáp án câu hiện tại
+            readHistoryStages: {}, // Đánh dấu giai đoạn nào đã đọc tư liệu lịch sử
+            questions: []        // Danh sách 9 câu hỏi được sinh động mỗi lần chơi
+        };
+
+        // ==================== BỘ SINH CÂU HỎI ĐỘNG (THAY SỐ & ĐỔI VỊ TRÍ ĐÁP ÁN) ====================
+        function randInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function generateDynamicQuestions() {
+            const qList = [];
+
+            // --- GIAI ĐOẠN 1 (Câu 1, 2, 3 - Mức độ DỄ: Nhận diện & Nghiệm cơ bản) ---
+            // Câu 1: Trắc nghiệm nhận diện BPT bậc nhất một ẩn
+            const a1 = randInt(2, 9);
+            const b1 = randInt(1, 15);
+            const c1 = randInt(2, 7);
+            qList.push({
+                stage: 1,
+                type: "Trắc nghiệm (Lí thuyết)",
+                difficulty: "Dễ",
+                text: `Bất phương trình nào sau đây là bất phương trình bậc nhất một ẩn x?`,
+                options: shuffleArray([
+                    { text: `-${a1}x + ${b1} ≤ 0`, correct: true },
+                    { text: `x² - ${b1} > 0`, correct: false },
+                    { text: `0x + ${c1} < 0`, correct: false },
+                    { text: `x³ + ${a1} ≥ 0`, correct: false }
+                ]),
+                explanation: `BPT bậc nhất một ẩn có dạng ax + b ≤ 0 với a ≠ 0. Ở đây -${a1}x + ${b1} ≤ 0 có a = -${a1} ≠ 0 nên là BPT bậc nhất một ẩn. Các biểu thức chứa x², x³ hoặc 0x đều không thỏa mãn.`
+            });
+
+            // Câu 2: Đúng / Sai về điều kiện hệ số a ≠ 0 hoặc kiểm tra nghiệm
+            const k2 = randInt(2, 5);
+            const m2 = randInt(1, 4);
+            const valTrue = m2 + 2; // k2*(m2+2) - k2*m2 = 2*k2 > 0
+            const rhs2 = k2 * m2;
+            const isTrueStmt = Math.random() > 0.5;
+            const testX = isTrueStmt ? valTrue : (m2 - 1);
+            qList.push({
+                stage: 1,
+                type: "Đúng / Sai (Kiểm tra nghiệm)",
+                difficulty: "Dễ",
+                text: `Khẳng định sau Đúng hay Sai: "Số x = ${testX} là một nghiệm của bất phương trình ${k2}x - ${rhs2} > 0."`,
+                options: [
+                    { text: "Đúng", correct: isTrueStmt },
+                    { text: "Sai", correct: !isTrueStmt }
+                ],
+                explanation: `Thay x = ${testX} vào vế trái ta được: ${k2}·(${testX}) - ${rhs2} = ${k2 * testX - rhs2}. So với 0 thì ${k2 * testX - rhs2} > 0 là khẳng định ${isTrueStmt ? "ĐÚNG" : "SAI"}.`
+            });
+
+            // Câu 3: Giải BPT bậc nhất đơn giản hệ số a > 0
+            const a3 = randInt(2, 6);
+            const sol3 = randInt(2, 8);
+            const b3 = a3 * sol3;
+            qList.push({
+                stage: 1,
+                type: "Trắc nghiệm (Bài tập)",
+                difficulty: "Dễ",
+                text: `Nghiệm của bất phương trình ${a3}x - ${b3} < 0 là:`,
+                options: shuffleArray([
+                    { text: `x < ${sol3}`, correct: true },
+                    { text: `x > ${sol3}`, correct: false },
+                    { text: `x < -${sol3}`, correct: false },
+                    { text: `x ≤ ${sol3}`, correct: false }
+                ]),
+                explanation: `Ta có: ${a3}x - ${b3} < 0 ⇔ ${a3}x < ${b3}. Chia cả hai vế cho ${a3} > 0 (giữ nguyên chiều) ta được x < ${sol3}.`
+            });
+
+            // --- GIAI ĐOẠN 2 (Câu 4, 5, 6 - Mức độ TRUNG BÌNH: Hệ số a < 0 đổi chiều, chuyển vế) ---
+            // Câu 4: Giải BPT có hệ số a < 0 (Bẫy đổi chiều)
+            const a4 = randInt(2, 7);
+            const sol4 = randInt(1, 6);
+            const b4 = a4 * sol4;
+            qList.push({
+                stage: 2,
+                type: "Trắc nghiệm (Bài tập)",
+                difficulty: "Trung bình",
+                text: `Giải bất phương trình -${a4}x + ${b4} ≥ 0 ta được nghiệm là:`,
+                options: shuffleArray([
+                    { text: `x ≤ ${sol4}`, correct: true },
+                    { text: `x ≥ ${sol4}`, correct: false },
+                    { text: `x ≤ -${sol4}`, correct: false },
+                    { text: `x ≥ -${sol4}`, correct: false }
+                ]),
+                explanation: `Ta có: -${a4}x + ${b4} ≥ 0 ⇔ -${a4}x ≥ -${b4}. Chia cả hai vế cho số âm -${a4} nên phải ĐỔI CHIỀU bất phương trình: x ≤ ${sol4}.`
+            });
+
+            // Câu 5: Đúng / Sai về quy tắc nhân/chia số âm
+            const a5 = randInt(3, 8);
+            const b5 = randInt(5, 19);
+            const isCorrectRule = Math.random() > 0.5;
+            const shownSign = isCorrectRule ? "<" : ">";
+            qList.push({
+                stage: 2,
+                type: "Đúng / Sai (Lí thuyết & Biến đổi)",
+                difficulty: "Trung bình",
+                text: `Khẳng định sau Đúng hay Sai: "Từ bất phương trình -${a5}x > ${b5}, chia hai vế cho -${a5} ta được x ${shownSign} -${b5}/${a5}."`,
+                options: [
+                    { text: "Đúng", correct: isCorrectRule },
+                    { text: "Sai", correct: !isCorrectRule }
+                ],
+                explanation: `Khi chia cả hai vế của bất phương trình cho cùng một số âm (-${a5} < 0), ta phải ĐỔI CHIỀU bất phương trình từ ">" thành "<". Vậy x < -${b5}/${a5} mới đúng.`
+            });
+
+            // Câu 6: Giải BPT có ẩn ở cả hai vế
+            const p6 = randInt(5, 9);
+            const q6 = randInt(2, 4); // p6 - q6 > 0
+            const diff6 = p6 - q6;
+            const sol6 = randInt(2, 6);
+            const c6 = randInt(1, 10);
+            const d6 = diff6 * sol6 + c6; // p6*x + c6 > q6*x + d6 => diff6*x > d6 - c6 = diff6*sol6 => x > sol6
+            qList.push({
+                stage: 2,
+                type: "Trắc nghiệm (Bài tập)",
+                difficulty: "Trung bình",
+                text: `Tập nghiệm của bất phương trình ${p6}x + ${c6} > ${q6}x + ${d6} là:`,
+                options: shuffleArray([
+                    { text: `x > ${sol6}`, correct: true },
+                    { text: `x < ${sol6}`, correct: false },
+                    { text: `x > ${sol6 + 2}`, correct: false },
+                    { text: `x ≥ ${sol6}`, correct: false }
+                ]),
+                explanation: `Chuyển vế: ${p6}x - ${q6}x > ${d6} - ${c6} ⇔ ${diff6}x > ${diff6 * sol6}. Chia hai vế cho ${diff6} > 0 ta được x > ${sol6}.`
+            });
+
+            // --- GIAI ĐOẠN 3 (Câu 7, 8, 9 - Mức độ KHÓ: Dấu ngoặc, mẫu số, bài toán thực tế) ---
+            // Câu 7: BPT chứa dấu ngoặc & hệ số âm
+            const m7 = randInt(2, 4);
+            const n7 = randInt(5, 8);
+            const sol7 = randInt(1, 5);
+            // m7*(x + 2) - n7*x <= rhs7  => (m7 - n7)*x + 2*m7 <= rhs7
+            const coeff7 = m7 - n7; // số âm
+            const rhs7 = coeff7 * sol7 + 2 * m7;
+            qList.push({
+                stage: 3,
+                type: "Trắc nghiệm (Vận dụng)",
+                difficulty: "Khó",
+                text: `Nghiệm của bất phương trình ${m7}(x + 2) - ${n7}x ≤ ${rhs7} là:`,
+                options: shuffleArray([
+                    { text: `x ≥ ${sol7}`, correct: true },
+                    { text: `x ≤ ${sol7}`, correct: false },
+                    { text: `x ≥ -${sol7}`, correct: false },
+                    { text: `x ≤ -${sol7}`, correct: false }
+                ]),
+                explanation: `Khai triển: ${m7}x + ${2 * m7} - ${n7}x ≤ ${rhs7} ⇔ ${coeff7}x ≤ ${rhs7 - 2 * m7}. Chia hai vế cho số âm ${coeff7} (đổi chiều) ta được x ≥ ${sol7}.`
+            });
+
+            // Câu 8: Bài toán thực tế giống tình huống mở đầu SGK (Bạn Thanh mua vở / Tiếp tế đạn)
+            const totalMoney = randInt(10, 15) * 10; // 100..150 nghìn
+            const penPrice = randInt(12, 20);
+            const bookPrice = randInt(6, 9);
+            const maxBooks = Math.floor((totalMoney - penPrice) / bookPrice);
+            qList.push({
+                stage: 3,
+                type: "Trắc nghiệm (Toán thực tế)",
+                difficulty: "Khó",
+                text: `Một chiến sĩ hậu cần có ${totalMoney} nghìn đồng để mua 1 chiếc đèn pin giá ${penPrice} nghìn đồng và x cuốn sổ ghi chép, mỗi cuốn giá ${bookPrice} nghìn đồng. Hỏi mua được nhiều nhất bao nhiêu cuốn sổ?`,
+                options: shuffleArray([
+                    { text: `${maxBooks} cuốn`, correct: true },
+                    { text: `${maxBooks + 1} cuốn`, correct: false },
+                    { text: `${maxBooks - 1} cuốn`, correct: false },
+                    { text: `${maxBooks + 2} cuốn`, correct: false }
+                ]),
+                explanation: `Ta có BPT: ${bookPrice}x + ${penPrice} ≤ ${totalMoney} ⇔ ${bookPrice}x ≤ ${totalMoney - penPrice} ⇔ x ≤ ${((totalMoney - penPrice) / bookPrice).toFixed(2)}. Vì x là số tự nhiên nên mua được nhiều nhất ${maxBooks} cuốn.`
+            });
+
+            // Câu 9: Đúng / Sai tổng hợp BPT bậc nhất chứa phân số
+            const d9 = randInt(2, 4);
+            const s9 = randInt(3, 7);
+            // (2x - 1)/d9 > (x + s9)/d9 => 2x - 1 > x + s9 => x > s9 + 1
+            const finalSol9 = s9 + 1;
+            const isStmt9True = Math.random() > 0.5;
+            const shownSol9 = isStmt9True ? finalSol9 : (finalSol9 - 2);
+            qList.push({
+                stage: 3,
+                type: "Đúng / Sai (Vận dụng cao)",
+                difficulty: "Khó",
+                text: `Khẳng định sau Đúng hay Sai: "Bất phương trình (2x - 1)/${d9} > (x + ${s9})/${d9} có tập nghiệm là x > ${shownSol9}."`,
+                options: [
+                    { text: "Đúng", correct: isStmt9True },
+                    { text: "Sai", correct: !isStmt9True }
+                ],
+                explanation: `Nhân cả hai vế với ${d9} > 0 (giữ nguyên chiều): 2x - 1 > x + ${s9} ⇔ 2x - x > ${s9} + 1 ⇔ x > ${finalSol9}. Vậy khẳng định trên là ${isStmt9True ? "ĐÚNG" : "SAI"}.`
+            });
+
+            return qList;
+        }
+
+        // ==================== ĐIỀU HƯỚNG MÀN HÌNH ====================
+        function goToScreen(screenId) {
+            const screens = [
+                'screen-intro', 'screen-briefing', 'screen-name',
+                'screen-stage-intro', 'screen-game', 'screen-victory', 'screen-gameover'
+            ];
+            screens.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        // Xử lý nhập tên ở màn hình 3
+        function handleNameInput() {
+            const input = document.getElementById('player-name-input').value.trim();
+            const readyBox = document.getElementById('ready-box');
+            const soldierTitle = document.getElementById('soldier-title');
+            
+            if (input.length > 0) {
+                gameState.playerName = input;
+                soldierTitle.textContent = `Chiến sĩ: ${input}`;
+                readyBox.classList.remove('hidden');
+            } else {
+                readyBox.classList.add('hidden');
+            }
+        }
+
+        // ==================== QUẢN LÝ GIAI ĐOẠN & ĐỒNG HỒ ====================
+        function prepareStage(stageNum) {
+            gameState.stage = stageNum;
+            
+            // Nếu là giai đoạn 1 (bắt đầu game), khởi tạo lại bộ câu hỏi & thông số
+            if (stageNum === 1) {
+                gameState.questions = generateDynamicQuestions();
+                gameState.questionIndex = 0;
+                gameState.medkits = 1;
+                gameState.power = 2;
+                gameState.timeLeft = 300;
+                gameState.readHistoryStages = {};
+                if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+            }
+
+            const stageConfigs = {
+                1: {
+                    title: "GIAI ĐOẠN 1: 18 - 20/12/1972",
+                    location: "HÀ NỘI",
+                    desc: "Cấp độ câu hỏi: Dễ (Khái niệm & Nghiệm BPT bậc nhất một ẩn)"
+                },
+                2: {
+                    title: "GIAI ĐOẠN 2: 21 - 24/12/1972",
+                    location: "HÀ NỘI - HẢI PHÒNG",
+                    desc: "Cấp độ câu hỏi: Trung bình (Biến đổi đổi chiều khi chia số âm)"
+                },
+                3: {
+                    title: "GIAI ĐOẠN 3: 26 - 29/12/1972",
+                    location: "BẦU TRỜI MIỀN BẮC",
+                    desc: "Cấp độ câu hỏi: Khó (Vận dụng giải BPT phức tạp & Toán thực tế)"
+                }
+            };
+
+            const cfg = stageConfigs[stageNum];
+            document.getElementById('stage-intro-title').textContent = cfg.title;
+            document.getElementById('stage-intro-location').textContent = cfg.location;
+            document.getElementById('stage-intro-desc').textContent = cfg.desc;
+
+            // Tạm dừng đồng hồ khi đang ở màn hình chuyển giai đoạn
+            gameState.isPaused = true;
+            goToScreen('screen-stage-intro');
+        }
+
+        function startStageBattle() {
+            goToScreen('screen-game');
+            gameState.isPaused = false;
+            
+            // Khởi động đồng hồ 5 phút nếu chưa chạy
+            if (!gameState.timerInterval) {
+                startGlobalTimer();
+            }
+
+            updateHUD();
+            loadCurrentQuestion();
+        }
+
+        function startGlobalTimer() {
+            updateTimerDisplay();
+            gameState.timerInterval = setInterval(() => {
+                if (!gameState.isPaused) {
+                    gameState.timeLeft--;
+                    updateTimerDisplay();
+                    if (gameState.timeLeft <= 0) {
+                        clearInterval(gameState.timerInterval);
+                        triggerGameOver("Đã hết 5 phút tác chiến! Địch đã vượt qua tuyến phòng thủ.");
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(gameState.timeLeft / 60);
+            const secs = gameState.timeLeft % 60;
+            const timerEl = document.getElementById('hud-timer');
+            timerEl.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            
+            if (gameState.timeLeft <= 60) {
+                timerEl.classList.remove('text-green-300');
+                timerEl.classList.add('text-red-500', 'animate-pulse');
+            } else {
+                timerEl.classList.add('text-green-300');
+                timerEl.classList.remove('text-red-500', 'animate-pulse');
+            }
+        }
+
+        function updateHUD() {
+            document.getElementById('hud-medkits').textContent = gameState.medkits;
+            document.getElementById('hud-power').textContent = gameState.power;
+            document.getElementById('hud-q-num').textContent = gameState.questionIndex + 1;
+
+            const stageLabels = {
+                1: { name: "GĐ 1: 18-20/12/72", loc: "Hà Nội" },
+                2: { name: "GĐ 2: 21-24/12/72", loc: "Hà Nội - Hải Phòng" },
+                3: { name: "GĐ 3: 26-29/12/72", loc: "Bầu trời Miền Bắc" }
+            };
+            document.getElementById('hud-stage-name').textContent = stageLabels[gameState.stage].name;
+            document.getElementById('hud-location').innerHTML = `Vị trí: ${stageLabels[gameState.stage].loc} • Câu <span id="hud-q-num">${gameState.questionIndex + 1}</span>/9`;
+
+            // Kiểm tra nút 3 chấm xám có dấu chấm than đỏ (chỉ hiện khi giai đoạn hiện tại chưa đọc tư liệu)
+            const badge = document.getElementById('history-badge');
+            if (gameState.readHistoryStages[gameState.stage]) {
+                badge.classList.add('hidden');
+            } else {
+                badge.classList.remove('hidden');
+            }
+        }
+
+        // ==================== TƯ LIỆU LỊCH SỬ (MODAL NÚT 3 CHẤM XÁM) ====================
+        function openHistoryModal() {
+            playClick();
+            gameState.isPaused = true; // Dừng thời gian khi đọc tư liệu
+            
+            const doc = HISTORY_DATA[gameState.stage];
+            document.getElementById('history-modal-title').textContent = doc.title;
+            document.getElementById('history-modal-content').innerHTML = doc.content;
+            document.getElementById('modal-history').classList.remove('hidden');
+
+            // Đánh dấu người chơi đã đọc thông tin giai đoạn này -> ẩn dấu chấm than đỏ
+            gameState.readHistoryStages[gameState.stage] = true;
+            updateHUD();
+        }
+
+        function closeHistoryModal() {
+            playClick();
+            document.getElementById('modal-history').classList.add('hidden');
+            gameState.isPaused = false; // Thoát ra tiếp tục tính thời gian
+        }
+
+        // ==================== LOGIC CÂU HỎI & BẮN MÁY BAY ====================
+        function loadCurrentQuestion() {
+            const q = gameState.questions[gameState.questionIndex];
+            gameState.answered = false;
+            gameState.canShoot = false;
+
+            // Reset UI bầu trời & hộp giải thích
+            document.getElementById('shoot-prompt-banner').classList.add('hidden');
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('sky-status').textContent = "Mục tiêu địch đang xâm nhập!";
+            document.getElementById('sky-status').className = "bg-red-900/80 px-2.5 py-1 rounded text-yellow-300 font-semibold border border-red-600";
+
+            // Hiển thị câu hỏi
+            document.getElementById('question-type-badge').textContent = q.type;
+            document.getElementById('question-difficulty').textContent = `Mức độ: ${q.difficulty}`;
+            document.getElementById('question-text').textContent = `Câu ${gameState.questionIndex + 1}: ${q.text}`;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            const labels = ['A', 'B', 'C', 'D'];
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn text-left p-3.5 sm:p-4 rounded-xl bg-green-950/90 hover:bg-green-900 border-2 border-green-600 text-white font-semibold text-base sm:text-lg transition-all flex items-center gap-3 cursor-pointer shadow";
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-lg bg-yellow-400 text-red-950 font-bold flex items-center justify-center shrink-0">${labels[idx]}</span>
+                    <span>${opt.text}</span>
+                `;
+                btn.onclick = () => handleAnswer(opt, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(selectedOpt, clickedBtn) {
+            if (gameState.answered) return;
+            gameState.answered = true;
+
+            const q = gameState.questions[gameState.questionIndex];
+            const allBtns = document.querySelectorAll('.option-btn');
+
+            // Khóa các nút và tô màu đúng/sai
+            allBtns.forEach((btn, i) => {
+                btn.disabled = true;
+                btn.classList.remove('hover:bg-green-900', 'cursor-pointer');
+                if (q.options[i].correct) {
+                    btn.classList.remove('bg-green-950/90', 'border-green-600');
+                    btn.classList.add('bg-green-700', 'border-yellow-300', 'ring-2', 'ring-yellow-300');
+                }
+            });
+
+            const expBox = document.getElementById('explanation-box');
+            const statusText = document.getElementById('result-status-text');
+            const expText = document.getElementById('explanation-text');
+            const nextBtnWrapper = document.getElementById('next-btn-wrapper');
+
+            expText.textContent = q.explanation;
+
+            if (selectedOpt.correct) {
+                // TRẢ LỜI ĐÚNG
+                playCorrectSound();
+                gameState.power += 1;
+                let bonusMsg = "";
+                // Cứ 3 điểm lực thì được 1 hộp cứu thương
+                if (gameState.power >= 3) {
+                    gameState.power -= 3;
+                    gameState.medkits += 1;
+                    bonusMsg = " (Đủ 3⚡ ➔ Đổi được +1 Hộp cứu thương ✚!)";
+                }
+                updateHUD();
+
+                statusText.textContent = `✅ CHÍNH XÁC! +1 Điểm lực${bonusMsg}`;
+                statusText.className = "font-extrabold text-base sm:text-lg text-green-700";
+
+                // Kích hoạt chế độ bắn máy bay trên bầu trời
+                gameState.canShoot = true;
+                document.getElementById('shoot-prompt-banner').classList.remove('hidden');
+                document.getElementById('sky-status').textContent = "ĐÃ KHÓA MỤC TIÊU! CHẠM MÁY BAY ĐỂ BẮN!";
+                document.getElementById('sky-status').className = "bg-yellow-400 px-2.5 py-1 rounded text-red-950 font-bold border border-red-700 animate-pulse";
+
+                // Ẩn nút "Câu tiếp theo" cho đến khi người chơi bắn xong 1 máy bay
+                nextBtnWrapper.classList.add('hidden');
+                expBox.classList.remove('hidden');
+
+            } else {
+                // TRẢ LỜI SAI -> Máy bay địch bắn lại, mất 1 hộp cứu thương
+                playWrongSound();
+                clickedBtn.classList.remove('bg-green-950/90', 'border-green-600');
+                clickedBtn.classList.add('bg-red-800', 'border-red-400');
+
+                // Hiệu ứng rung màn hình bị địch bắn trả
+                const arena = document.getElementById('sky-arena');
+                arena.classList.add('shake-screen');
+                setTimeout(() => arena.classList.remove('shake-screen'), 450);
+
+                document.getElementById('sky-status').textContent = "💥 BỊ MÁY BAY ĐỊCH BẮN TRẢ!";
+
+                // Luật: Nếu hết hộp cứu thương thì phải sai thêm 1 câu nữa mới thua
+                if (gameState.medkits > 0) {
+                    gameState.medkits -= 1;
+                    updateHUD();
+                    statusText.textContent = `❌ SAI RỒI! Bị địch bắn trả, mất 1 Hộp cứu thương (Còn ${gameState.medkits}✚).`;
+                    statusText.className = "font-extrabold text-base sm:text-lg text-red-700";
+                    nextBtnWrapper.classList.remove('hidden');
+                    expBox.classList.remove('hidden');
+                } else {
+                    // Đã hết hộp cứu thương (0) mà sai thêm 1 câu nữa -> THUA
+                    statusText.textContent = "❌ SAI RỒI! Đã hết Hộp cứu thương để cứu chữa!";
+                    statusText.className = "font-extrabold text-base sm:text-lg text-red-700";
+                    expBox.classList.remove('hidden');
+                    nextBtnWrapper.classList.add('hidden');
+                    setTimeout(() => {
+                        triggerGameOver("Trận địa đã hết Hộp cứu thương và không thể chống đỡ đợt oanh tạc tiếp theo!");
+                    }, 1800);
+                }
+            }
+        }
+
+        // Bắn hạ máy bay khi trả lời đúng
+        function shootPlane(planeType, btnElement) {
+            if (!gameState.canShoot) return;
+            gameState.canShoot = false;
+            playShootSound();
+
+            document.getElementById('shoot-prompt-banner').classList.add('hidden');
+
+            // Hiệu ứng tên lửa & nổ tung tại vị trí máy bay được chạm
+            const rect = btnElement.getBoundingClientRect();
+            const arena = document.getElementById('sky-arena');
+            const arenaRect = arena.getBoundingClientRect();
+
+            const boom = document.createElement('div');
+            boom.className = "absolute text-4xl sm:text-5xl explosion-fx pointer-events-none z-30";
+            boom.style.left = `${rect.left - arenaRect.left + rect.width / 2 - 20}px`;
+            boom.style.top = `${rect.top - arenaRect.top + rect.height / 2 - 20}px`;
+            boom.textContent = "🔥💥";
+            arena.appendChild(boom);
+
+            // Làm mờ máy bay bị bắn trúng tạm thời rồi phục hồi cho lượt sau
+            btnElement.style.opacity = "0.25";
+            btnElement.style.transform = "scale(0.8) rotate(15deg)";
+            
+            const planeNames = {
+                b52: "Pháo đài bay B-52",
+                tactical: "Máy bay chiến thuật F-111",
+                carrier: "Tiêm kích hạm từ Tàu sân bay"
+            };
+            document.getElementById('sky-status').textContent = `🎯 BẮN RƠI TẠI CHỖ ${planeNames[planeType].toUpperCase()}!`;
+            document.getElementById('sky-status').className = "bg-green-700 px-2.5 py-1 rounded text-yellow-300 font-bold border border-yellow-400";
+
+            setTimeout(() => {
+                boom.remove();
+                btnElement.style.opacity = "1";
+                btnElement.style.transform = "";
+                // Tự động chuyển sang câu tiếp theo (hoặc hiện nút chuyển tiếp)
+                nextQuestion();
+            }, 1100);
+        }
+
+        function nextQuestion() {
+            gameState.questionIndex++;
+
+            if (gameState.questionIndex >= 9) {
+                // Hoàn thành tất cả 9 câu (3 giai đoạn) -> CHIẾN THẮNG!
+                clearInterval(gameState.timerInterval);
+                playCorrectSound();
+                document.getElementById('victory-soldier-name').textContent = `CHÚC MỪNG CHIẾN SĨ: ${gameState.playerName.toUpperCase()}`;
+                goToScreen('screen-victory');
+                return;
+            }
+
+            // Kiểm tra chuyển giai đoạn (Câu 3 -> GĐ 2; Câu 6 -> GĐ 3)
+            if (gameState.questionIndex === 3) {
+                prepareStage(2);
+            } else if (gameState.questionIndex === 6) {
+                prepareStage(3);
+            } else {
+                updateHUD();
+                loadCurrentQuestion();
+            }
+        }
+
+        function triggerGameOver(reason) {
+            clearInterval(gameState.timerInterval);
+            document.getElementById('gameover-reason').textContent = reason;
+            goToScreen('screen-gameover');
+        }
+
+        function resetGame() {
+            playClick();
+            if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+            gameState.timerInterval = null;
+            document.getElementById('player-name-input').value = "";
+            document.getElementById('ready-box').classList.add('hidden');
+            goToScreen('screen-intro');
+        }
+    </script>
+</body>
+</html>
